@@ -3,14 +3,7 @@ import { useRef, useCallback } from 'react';
 /**
  * Custom hook for metronome functionality using Web Audio API
  */
-const useMetronome = ({ 
-  bpm, 
-  beatsPerBar = 4, 
-  onBeat,
-  soundType = 'square',
-  volume = 1.0,
-  toneSettings = { accentFreq: 1000, regularFreq: 800 }
-}) => {
+const useMetronome = ({ bpm, beatsPerBar = 4, onBeat }) => {
   // Audio context and nodes references
   const audioContextRef = useRef(null);
   const nextNoteTimeRef = useRef(0);
@@ -33,16 +26,16 @@ const useMetronome = ({
     const osc = audioContextRef.current.createOscillator();
     const gain = audioContextRef.current.createGain();
     
-    // Set oscillator type based on sound settings
-    osc.type = soundType;
+    // Set oscillator type to square wave for sharper click sound
+    osc.type = 'square';
     
     // Set oscillator properties based on accent
     if (isAccent) {
-      osc.frequency.value = toneSettings.accentFreq; // Accent frequency
-      gain.gain.value = 1.5 * volume; // Apply volume setting to accent
+      osc.frequency.value = 1000; // Higher pitch for accented beats
+      gain.gain.value = 1.5; // Increased volume for accent beat
     } else {
-      osc.frequency.value = toneSettings.regularFreq; // Regular beat frequency
-      gain.gain.value = 1.2 * volume; // Apply volume setting to regular beats
+      osc.frequency.value = 800; // Lower pitch for regular beats
+      gain.gain.value = 1.2; // Increased volume for regular beats
     }
     
     // Set envelope for the click sound - extend slightly for more audible click
@@ -98,7 +91,7 @@ const useMetronome = ({
     
     // Schedule the next check
     timerIDRef.current = window.setTimeout(scheduleNotes, lookahead);
-  }, [beatsPerBar, onBeat, nextNote, soundType, volume, toneSettings]);
+  }, [beatsPerBar, onBeat, nextNote]);
   
   /**
    * Start the metronome

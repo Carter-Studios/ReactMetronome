@@ -79,14 +79,6 @@
   margin-top: 20px;
   box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
   transition: all 0.2s ease;
-  z-index: 1;
-}
-
-/* Sound options container positioning */
-.metronome .sound-options {
-  width: 90%;
-  margin-top: 5px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .play-button:active {
@@ -107,11 +99,4 @@
   .play-button.playing:hover {
     background-color: rgba(255, 59, 48, 0.9);
   }
-}
-
-/* Sound options container positioning */
-.metronome .sound-options {
-  width: 90%;
-  margin-top: 5px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
