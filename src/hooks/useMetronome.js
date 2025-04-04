@@ -26,28 +26,31 @@ const useMetronome = ({ bpm, beatsPerBar = 4, onBeat }) => {
     const osc = audioContextRef.current.createOscillator();
     const gain = audioContextRef.current.createGain();
     
+    // Set oscillator type to square wave for sharper click sound
+    osc.type = 'square';
+    
     // Set oscillator properties based on accent
     if (isAccent) {
       osc.frequency.value = 1000; // Higher pitch for accented beats
-      gain.gain.value = 1.0;
+      gain.gain.value = 1.5; // Increased volume for accent beat
     } else {
       osc.frequency.value = 800; // Lower pitch for regular beats
-      gain.gain.value = 0.7;
+      gain.gain.value = 1.2; // Increased volume for regular beats
     }
     
-    // Set envelope for the click sound
+    // Set envelope for the click sound - extend slightly for more audible click
     gain.gain.exponentialRampToValueAtTime(
       0.001,
-      time + 0.03
+      time + 0.05
     );
     
     // Connect the audio nodes
     osc.connect(gain);
     gain.connect(audioContextRef.current.destination);
     
-    // Schedule the oscillator
+    // Schedule the oscillator with longer duration to match the envelope
     osc.start(time);
-    osc.stop(time + 0.03);
+    osc.stop(time + 0.05);
   };
   
   /**

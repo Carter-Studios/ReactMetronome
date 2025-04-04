@@ -62,6 +62,7 @@ const Metronome = () => {
       <div className="tempo-display">
         <span className="bpm-value">{bpm}</span>
         <span className="bpm-label">BPM</span>
+        <div className="bpm-info">Current Tempo</div>
       </div>
       
       <BpmControl bpm={bpm} onBpmChange={handleBpmChange} />
