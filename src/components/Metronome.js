@@ -2,7 +2,10 @@ import React, { useState, useRef } from 'react';
 import './Metronome.css';
 import BpmControl from './BpmControl';
 import TimeSignature from './TimeSignature';
+import TapTempo from './TapTempo';
+import SoundOptions from './SoundOptions';
 import useMetronome from '../hooks/useMetronome';
+import useSoundOptions from '../hooks/useSoundOptions';
 
 const Metronome = () => {
   const [bpm, setBpm] = useState(100);
@@ -10,14 +13,28 @@ const Metronome = () => {
   const [currentBeat, setCurrentBeat] = useState(0);
   const [timeSignature, setTimeSignature] = useState({ beatsPerBar: 4, beatUnit: 4 });
   
+  // Get sound options from custom hook
+  const { 
+    availableSounds, 
+    currentSound, 
+    volume, 
+    tone,
+    changeSound, 
+    adjustVolume 
+  } = useSoundOptions();
+  
   const onBeatCallback = (beat) => {
     setCurrentBeat(beat % timeSignature.beatsPerBar);
   };
   
+  // Pass sound settings to the metronome hook
   const { startMetronome, stopMetronome } = useMetronome({
     bpm,
     beatsPerBar: timeSignature.beatsPerBar,
-    onBeat: onBeatCallback
+    onBeat: onBeatCallback,
+    soundType: currentSound.id,
+    volume: volume,
+    toneSettings: tone
   });
   
   const togglePlay = () => {
@@ -48,6 +65,24 @@ const Metronome = () => {
     }
   };
   
+  // Handle sound type changes
+  const handleSoundChange = (soundId) => {
+    changeSound(soundId);
+    if (isPlaying) {
+      stopMetronome();
+      startMetronome();
+    }
+  };
+  
+  // Handle volume changes
+  const handleVolumeChange = (newVolume) => {
+    adjustVolume(newVolume);
+    if (isPlaying) {
+      stopMetronome();
+      startMetronome();
+    }
+  };
+  
   return (
     <div className="metronome">
       <div className="visualizer">
@@ -70,6 +105,20 @@ const Metronome = () => {
       <TimeSignature 
         timeSignature={timeSignature} 
         onTimeSignatureChange={handleTimeSignatureChange} 
+      />
+      
+      <TapTempo 
+        onTempoChange={handleBpmChange}
+        minBpm={40}
+        maxBpm={250}
+      />
+      
+      <SoundOptions
+        availableSounds={availableSounds}
+        currentSound={currentSound}
+        volume={volume}
+        onSoundChange={handleSoundChange}
+        onVolumeChange={handleVolumeChange}
       />
       
       <button 
