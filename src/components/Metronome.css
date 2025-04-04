@@ -1,0 +1,92 @@
+.metronome {
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  padding: 20px 0;
+}
+
+.visualizer {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.beat {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background-color: #d1d1d1;
+  transition: all 0.05s ease;
+}
+
+.beat.first-beat {
+  width: 18px;
+  height: 18px;
+}
+
+.beat.active {
+  background-color: #FF3B30;
+  transform: scale(1.2);
+  box-shadow: 0 0 10px rgba(255, 59, 48, 0.5);
+}
+
+.beat.first-beat.active {
+  background-color: #FF3B30;
+}
+
+.tempo-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.bpm-value {
+  font-size: 60px;
+  font-weight: bold;
+  color: #333;
+}
+
+.bpm-label {
+  font-size: 16px;
+  color: #666;
+  margin-top: -5px;
+}
+
+.play-button {
+  background-color: #007AFF;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  font-size: 20px;
+  font-weight: 600;
+  padding: 15px 40px;
+  margin-top: 20px;
+  box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
+  transition: all 0.2s ease;
+}
+
+.play-button:active {
+  transform: scale(0.96);
+  box-shadow: 0 2px 6px rgba(0, 122, 255, 0.3);
+}
+
+.play-button.playing {
+  background-color: #FF3B30;
+  box-shadow: 0 4px 12px rgba(255, 59, 48, 0.3);
+}
+
+@media (hover: hover) {
+  .play-button:hover {
+    background-color: rgba(0, 122, 255, 0.9);
+  }
+  
+  .play-button.playing:hover {
+    background-color: rgba(255, 59, 48, 0.9);
+  }
+}
