@@ -43,7 +43,7 @@ const BpmControl = ({ bpm, onBpmChange }) => {
           </svg>
         </button>
       </div>
-      <style jsx>{`
+      <style>{`
         .bpm-control {
           width: 100%;
           display: flex;

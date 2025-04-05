@@ -2,13 +2,10 @@ import React from 'react';
 
 const TimeSignature = ({ timeSignature, onTimeSignatureChange }) => {
   const commonTimeSignatures = [
+    { beatsPerBar: 1, beatUnit: 1 },
     { beatsPerBar: 2, beatUnit: 4 },
     { beatsPerBar: 3, beatUnit: 4 },
-    { beatsPerBar: 4, beatUnit: 4 },
-    { beatsPerBar: 5, beatUnit: 4 },
-    { beatsPerBar: 6, beatUnit: 8 },
-    { beatsPerBar: 7, beatUnit: 8 },
-    { beatsPerBar: 12, beatUnit: 8 }
+    { beatsPerBar: 4, beatUnit: 4 }
   ];
 
   const isSelected = (ts) => {
@@ -30,7 +27,7 @@ const TimeSignature = ({ timeSignature, onTimeSignatureChange }) => {
           </button>
         ))}
       </div>
-      <style jsx>{`
+      <style>{`
         .time-signature-container {
           width: 100%;
           display: flex;
