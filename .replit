@@ -46,7 +46,7 @@ task = "packager.installForAll"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "rm -rf docs/* && npx react-scripts --openssl-legacy-provider build && cp -r build/* docs/ && touch docs/.nojekyll"
+args = "rm -rf docs/* && npx react-scripts --openssl-legacy-provider build && sed -i 's|href=\"/|href=\"./|g' build/index.html && sed -i 's|src=\"/|src=\"./|g' build/index.html && cp -r build/* docs/ && touch docs/.nojekyll"
 
 [deployment]
 run = ["sh", "-c", "npm install && npm start"]
