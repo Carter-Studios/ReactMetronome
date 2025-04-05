@@ -31,9 +31,11 @@ const Metronome = () => {
     }
   };
   
-  const handleBpmChange = (newBpm) => {
+  const handleBpmChange = (newBpm, shouldRestart = true) => {
     setBpm(newBpm);
-    if (isPlaying) {
+    // Only restart the metronome when explicitly told to (buttons or slider release)
+    // This avoids clicks when moving the slider
+    if (isPlaying && shouldRestart) {
       stopMetronome();
       startMetronome();
     }

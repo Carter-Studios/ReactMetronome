@@ -1,13 +1,20 @@
 import React from 'react';
 
-const BpmControl = ({ bpm, onBpmChange }) => {
+const BpmControl = ({ bpm, onBpmChange, onFinalBpmChange }) => {
+  // onBpmChange is called during slider movement (no click sound)
+  // onFinalBpmChange is called when slider is released (triggers metronome restart)
+  
   const handleSliderChange = (e) => {
-    onBpmChange(parseInt(e.target.value, 10));
+    onBpmChange(parseInt(e.target.value, 10), false);
+  };
+  
+  const handleSliderRelease = (e) => {
+    onBpmChange(parseInt(e.target.value, 10), true);
   };
   
   const handleButtonClick = (increment) => {
     const newBpm = Math.min(Math.max(bpm + increment, 30), 240);
-    onBpmChange(newBpm);
+    onBpmChange(newBpm, true);
   };
   
   return (
@@ -19,6 +26,8 @@ const BpmControl = ({ bpm, onBpmChange }) => {
           max="240"
           value={bpm}
           onChange={handleSliderChange}
+          onMouseUp={handleSliderRelease}
+          onTouchEnd={handleSliderRelease}
           className="bpm-slider"
         />
       </div>
