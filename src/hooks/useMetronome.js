@@ -19,7 +19,7 @@ const useMetronome = ({ bpm, beatsPerBar = 4, onBeat }) => {
   /**
    * Create and return an oscillator and gain node for click sound
    */
-  const createClickSound = (time, isAccent) => {
+  const createClickSound = (time) => {
     if (!audioContextRef.current) return;
     
     // Create oscillator and gain nodes
@@ -29,14 +29,9 @@ const useMetronome = ({ bpm, beatsPerBar = 4, onBeat }) => {
     // Set oscillator type to square wave for sharper click sound
     osc.type = 'square';
     
-    // Set oscillator properties based on accent
-    if (isAccent) {
-      osc.frequency.value = 1000; // Higher pitch for accented beats
-      gain.gain.value = 1.5; // Increased volume for accent beat
-    } else {
-      osc.frequency.value = 800; // Lower pitch for regular beats
-      gain.gain.value = 1.2; // Increased volume for regular beats
-    }
+    // Set consistent oscillator properties for all beats
+    osc.frequency.value = 900; // Middle pitch for all beats
+    gain.gain.value = 1.4; // Consistent volume
     
     // Set envelope for the click sound - extend slightly for more audible click
     gain.gain.exponentialRampToValueAtTime(
@@ -79,10 +74,9 @@ const useMetronome = ({ bpm, beatsPerBar = 4, onBeat }) => {
         onBeat(beatPosition);
       }
       
-      // Schedule click sound with accent for the first beat
+      // Schedule click sound for the beat
       createClickSound(
-        nextNoteTimeRef.current,
-        beatPosition === 0 // Accent the first beat
+        nextNoteTimeRef.current
       );
       
       // Calculate time for next note
