@@ -2,18 +2,29 @@ import React from 'react';
 
 const TimeSignature = ({ timeSignature, onTimeSignatureChange }) => {
   const commonTimeSignatures = [
-    { beatsPerBar: 2, beatUnit: 4 },
-    { beatsPerBar: 3, beatUnit: 4 },
-    { beatsPerBar: 4, beatUnit: 4 },
-    { beatsPerBar: 5, beatUnit: 4 },
-    { beatsPerBar: 6, beatUnit: 8 },
-    { beatsPerBar: 7, beatUnit: 8 },
-    { beatsPerBar: 12, beatUnit: 8 }
+    { beatsPerBar: 1, beatUnit: 1, display: '𝅝' },  // Whole note
+    { beatsPerBar: 2, beatUnit: 4, display: '𝅗𝅥' },  // Half note
+    { beatsPerBar: 3, beatUnit: 4, display: '𝅘𝅥𝅘𝅥𝅘𝅥' },  // Three quarter notes
+    { beatsPerBar: 4, beatUnit: 4, display: '𝅘𝅥' },  // Quarter note (common time)
+    { beatsPerBar: 6, beatUnit: 8, display: '𝅘𝅥𝅮' },  // Dotted eighth note
   ];
 
   const isSelected = (ts) => {
     return ts.beatsPerBar === timeSignature.beatsPerBar && 
            ts.beatUnit === timeSignature.beatUnit;
+  };
+
+  // Helper function to get display text for time signature buttons
+  const getButtonDisplay = (ts) => {
+    if (ts.display) {
+      return (
+        <span>
+          <span className="note-symbol">{ts.display}</span>
+          <span className="small-text">{ts.beatsPerBar}/{ts.beatUnit}</span>
+        </span>
+      );
+    }
+    return `${ts.beatsPerBar}/${ts.beatUnit}`;
   };
 
   return (
@@ -26,7 +37,7 @@ const TimeSignature = ({ timeSignature, onTimeSignatureChange }) => {
             className={`time-sig-button ${isSelected(ts) ? 'selected' : ''}`}
             onClick={() => onTimeSignatureChange(ts)}
           >
-            {ts.beatsPerBar}/{ts.beatUnit}
+            {getButtonDisplay(ts)}
           </button>
         ))}
       </div>
@@ -70,6 +81,18 @@ const TimeSignature = ({ timeSignature, onTimeSignatureChange }) => {
         
         .time-sig-button:active {
           transform: scale(0.95);
+        }
+        
+        .note-symbol {
+          display: block;
+          font-size: 18px;
+          margin-bottom: 3px;
+        }
+        
+        .small-text {
+          display: block;
+          font-size: 12px;
+          margin-top: 2px;
         }
       `}</style>
     </div>
