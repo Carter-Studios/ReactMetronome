@@ -31,12 +31,12 @@ const useMetronome = ({ bpm, beatsPerBar = 4, onBeat }) => {
     
     // Set consistent oscillator properties for all beats
     osc.frequency.value = 900; // Middle pitch for all beats
-    gain.gain.value = 1.4; // Consistent volume
+    gain.gain.value = 2.5; // Increased volume for louder beeps
     
-    // Set envelope for the click sound - extend slightly for more audible click
+    // Set envelope for the click sound - extend duration for more audible click
     gain.gain.exponentialRampToValueAtTime(
       0.001,
-      time + 0.05
+      time + 0.08
     );
     
     // Connect the audio nodes
@@ -45,7 +45,7 @@ const useMetronome = ({ bpm, beatsPerBar = 4, onBeat }) => {
     
     // Schedule the oscillator with longer duration to match the envelope
     osc.start(time);
-    osc.stop(time + 0.05);
+    osc.stop(time + 0.08);
   };
   
   /**
