@@ -9,3 +9,4 @@ A React-based metronome application optimized for iOS with accurate timing and c
 - Customizable time signatures
 - Mobile-friendly interface optimized for iOS
 - Clear visual and audio cues
+- Two Toned beep
