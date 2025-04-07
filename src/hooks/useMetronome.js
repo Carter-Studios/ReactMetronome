@@ -18,8 +18,10 @@ const useMetronome = ({ bpm, beatsPerBar = 4, onBeat }) => {
   
   /**
    * Create and return an oscillator and gain node for click sound
+   * @param {number} time - The time to schedule the sound
+   * @param {number} beatPosition - The position within the measure (0 for first beat)
    */
-  const createClickSound = (time) => {
+  const createClickSound = (time, beatPosition) => {
     if (!audioContextRef.current) return;
     
     // Create oscillator and gain nodes
@@ -29,8 +31,15 @@ const useMetronome = ({ bpm, beatsPerBar = 4, onBeat }) => {
     // Set oscillator type to square wave for sharper click sound
     osc.type = 'square';
     
-    // Set consistent oscillator properties for all beats
-    osc.frequency.value = 900; // Middle pitch for all beats
+    // Different pitch for first beat vs. other beats
+    if (beatPosition === 0) {
+      // Higher pitch for the first beat of the measure
+      osc.frequency.value = 1100; // Higher pitch for first beat
+    } else {
+      // Lower pitch for other beats
+      osc.frequency.value = 800; // Lower pitch for other beats
+    }
+    
     gain.gain.value = 2.5; // Increased volume for louder beeps
     
     // Set envelope for the click sound - extend duration for more audible click
@@ -74,9 +83,10 @@ const useMetronome = ({ bpm, beatsPerBar = 4, onBeat }) => {
         onBeat(beatPosition);
       }
       
-      // Schedule click sound for the beat
+      // Schedule click sound for the beat with its position in the measure
       createClickSound(
-        nextNoteTimeRef.current
+        nextNoteTimeRef.current,
+        beatPosition
       );
       
       // Calculate time for next note
